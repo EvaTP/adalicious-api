@@ -25,6 +25,7 @@ submitNameButton.addEventListener('click', () => {
     if (firstName) {
 		helloFirstNameDiv.innerHTML = `Bonjour <span style='color: blue;'>${firstName}</span>`;
         welcomePage.classList.add('hidden');
+
         orderMenuPage.classList.remove('hidden');
 		messageErreur.classList.add('hidden');
     } else {
