@@ -1,0 +1,263 @@
+/* STYLES GENERAUX */
+*{
+	margin: 0;
+	padding: 0;
+	border: 0;
+	vertical-align: baseline;
+	text-decoration: none;
+	box-sizing: border-box;
+	font-family:'Roboto Mono', monospace;
+}
+
+:root {
+	--main: #ffffff;
+	--firstColor: #F5B82E;
+	--secondColor: #F4AC32;
+	--adaBlue: #0149d0;
+	--adaPink: #f8d9d1;
+	--adaRed: #e74b33;
+}
+body{
+	background-color: var(--adaPink);
+}
+
+/* PREMIERE PAGE : WELCOME PAGE */
+
+#welcome-page{
+	text-align: center;
+	margin: 2em;
+}
+button#interface-cuisine{
+	background-color: black;
+	color: white;
+	padding: 1em;
+	border-radius: 8px;
+	align-self:right;
+}
+#welcome-page > p:first-child{
+	font-size: 3.5em;
+	margin-top : 1em;
+}
+#welcome-page > p{
+	margin: 1.5em 0 1em 0;
+	font-size : 2em;
+}
+h1{
+	font-family: 'Marck Script', cursive;
+	color : var(--adaRed);
+	letter-spacing: 0.75em;
+	font-weight: 800;
+	font-size: 3.5em;
+	margin-bottom : 0.5em;
+}
+h2{
+	font-size: 1.5em;
+}
+h3{
+	margin: 1.5em 0.5em 0.5em 0.5em;
+}
+main{
+	margin : 3em;
+	padding : 1em;
+}
+#first-name {
+    width: 20%;
+	margin-top : 1.5em;
+	padding: 1em;
+    font-size: 1.5em;
+	border-radius: 15px;
+	box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+}
+#first-name, #submit-name {
+    margin: 0.5em;
+}
+.hidden{
+	display: none;
+}
+
+/* DEUXIEME PAGE : MENU ET COMMANDE */
+.entete{
+	margin : 2em 0 2em 2em;
+	font-size: 2em;
+	padding: 0.5em;
+}
+h2#adalicious{
+	font-family: 'Marck Script', cursive;
+	color : var(--adaRed);
+	font-weight: 600;
+	font-size: 3em;
+	text-align: left;
+	margin : 0.5em 0 0.5em 4em;
+} 
+#menu, #order-tracking{
+	width: 70%;
+	margin-left: 8em;
+	margin-bottom: 4em;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	flex-wrap : nowrap;
+	border: 2px solid black;
+	border-radius: 10px;
+	background-color: var(--adaPink);
+}
+/* Boutons menus */
+.styleOptionMenu{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	width: 70%;
+	margin: 1em;
+	padding: 20px 25px;
+	border: 2px solid grey;
+	border-radius: 10px;
+	background-color: #fff;
+	box-shadow: 4px 4px 5px darkgray;
+	text-align: center;
+	cursor: pointer;
+	font-size: 1.2em;
+	transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+}
+.styleOptionMenu:hover{
+	background-color: var(--adaRed);
+	color: white;
+	transform: scale(1.05);
+}
+.imageMenu{
+	font-size: 2.25em;
+	width: 25%;
+	padding : 0.5em;
+	border: 1px solid black;
+	border-radius: 8px;
+	background-color: lightgoldenrodyellow;
+}
+.nomPlat{
+	text-align: left;
+}
+.descriptionPlat{
+	text-align: left;
+}
+.submit-order{
+	width: 30%;
+	margin-top : 1.5em;
+	align-self: flex-end;
+	background-color: var(--adaBlue);
+	border-radius: 15px;
+	color: #fff;
+	padding: 1em;
+	font-size: 1em;
+	font-weight: bold;
+	box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+}
+#submit-name{
+	width: 20%;
+	margin-top : 1.5em;
+	align-items: center;
+	text-align: center;
+	background-color: var(--adaBlue);
+	border-radius: 15px;
+	color: #fff;
+	padding: 1.5em;
+	font-size: 1.25em;
+	box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+}
+#submit:active {
+    transform: scale(0.95);
+   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+
+/* TROISIEME PAGE : RECAPITULATIF COMMANDE */
+
+#ordertracking-page
+
+#order-tracking{
+	width: 70%;
+	margin-left: 8em;
+	margin-bottom: 4em;
+	padding : 3em;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	font-size: 2em;
+	line-height: 1.5em;
+	font-weight: bold;
+	border: 2px solid black;
+	border-radius: 10px;
+	background-color: var(--adaPink);
+}
+.statut{
+	color: green;
+	font-size: bold;
+}
+
+/* PAGE CUISINE */
+
+#page-cuisine{
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+#page-cuisine h1{
+	font-family: 'Marck Script', cursive;
+	color : var(--adaRed);
+	font-weight: 400;
+	font-size: 1.75em;
+	margin-top : 1.5em;
+}
+#page-cuisine > p{
+	color : green;
+	font-size: 2em;
+}
+#nbr-orders{
+	font-size: 1.25em;
+	margin: 1em 0;
+	color: var(--adaBlue)
+}
+#kitchen-orders{
+	width: 40%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.commande-item{
+	width: 100%;
+	border: 2px solid black;
+	border-radius: 10px;
+	margin: 1.5em 0;
+	padding: 0.5em;
+	text-align: center;
+}
+.btn-statut{
+	width: 40%;
+	border: 1px solid black;
+	border-radius: 10px;
+	margin: 0.5em 0;
+	color: white;
+	padding : 0.5em;
+	flex-wrap:nowrap;
+}
+.imageMenuKitchen{
+	font-size: 2.25em;
+	margin: 0.5em 0 0 0.5em;
+	width: 20%;
+	padding : 0.3em;
+	border: 1px solid black;
+	border-radius: 8px;
+	background-color: lightgoldenrodyellow;
+}
+#ongoing{
+	background-color : orange;
+}
+#ready{
+	background-color : green;
+}
+#cancelled{
+	background-color: red;
+	width : 80%;
+}

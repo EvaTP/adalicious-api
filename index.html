@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- <link rel="icon" type="image/svg" sizes="32x32" href="img/favicon-adalicious.svg"> -->
+	<link rel="icon" type="image/svg" sizes="32x32" href="img/favicon-adalicious-brocoli.svg">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Marck+Script&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="style.css">
+	<title>Adalicious</title>
+</head>
+<body>
+	<!-- PREMIERE PAGE : WELCOME -->
+	<div id="welcome-page">
+		<button id="interface-cuisine">Interface cuisine</button>
+		<p>🥦</p>
+		<h1>Bienvenue sur Adalicious!</h1>
+		<h2>Le célèbre <em>diner</em> des développeurs web 3.0 😋</h2>
+		<p>Pour commencer, peux-tu me donner ton prénom :</p>
+		
+
+		<input type="text" id="first-name">
+		<button id="submit-name" type="submit">Valider</button>
+		<p id="message-erreur"></p>
+	</div>
+
+	<!-- DEUXIEME PAGE : ORDER MENU -->
+	<div id="ordermenu-page" class="hidden">
+		<h2 id="adalicious">Adalicious 🥦</h2>
+
+		<div class="entete">
+			<div id="hello-firstname"></div>
+			<br>
+			<h2>Commande ton menu 👇</h2>
+		</div>
+
+		<!-- Menu -->
+		<div id="menu"></div>
+	</div>	
+
+	<!-- TROISIEME PAGE : RECAP COMMANDE -->
+	<div id="ordertracking-page" class="hidden">
+		<h2 id="adalicious">Adalicious 🥦</h2>
+
+		<div class="entete">
+			<div id="thanks-firstname"></div>
+			<br>
+			<h2>Suivi de ta commande :</h2>
+		</div>
+		
+
+		<!-- Suivi de la commande -->
+		<div id="order-tracking"></div>
+	</div>
+
+
+	<script type="module" src="script.js"></script>
+</body>
+</html>
