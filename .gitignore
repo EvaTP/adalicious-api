@@ -1,9 +1,15 @@
 # MAC OS
 .DS_Store
+
+node_modules
+
 README.md
+old-menujson.js
 
 old-menu.html
 script_old.js
 script-encours-comments.js
 Adalicious-Kata5.pdf
 adalicious_mockup.png
+
+.env
