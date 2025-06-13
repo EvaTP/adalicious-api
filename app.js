@@ -1,10 +1,13 @@
+require("dotenv").config();
 const express = require ('express');
 const app = express();
 const path = require ('path');
 
-const menuRoutes = require('./routes/menu');
+// const pool = require("./db");
 
-app.use('/api/menu', menuRoutes);
+const dishesRoute = require('./routes/dishes');
+
+app.use('/api/dishes', dishesRoute);
 
 // Middleware pour servir les fichiers statiques dans le dossier public
 app.use(express.static(path.join(__dirname, 'public')));

@@ -1,14 +1,16 @@
 const express = require('express');
-const pool = require('../db');
-
 const router = express.Router();
-router.use(express.json()); // nécessaire pour les POST car on solicite le body JSON
+const pool = require('../db');
+//router.use(express.json()); // nécessaire pour les POST car on solicite le body JSON
 
+router.get('/test', (req, res) => {
+  res.json({message : 'Route test dishes OK'});
+});
 
 // GET : TOUS LES PLATS DU MENU
 router.get('/', async (req, res)=>{
   try{
-    const result = await pool.query('SELECT * FROM menu');
+    const result = await pool.query('SELECT * FROM dishes');
     res.json(result.rows);
   }catch (err){
     console.error("Erreur PostgreSQL : ", err);

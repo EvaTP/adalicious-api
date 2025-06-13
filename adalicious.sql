@@ -1,10 +1,11 @@
-
+-- NEON PostgreSQL database
 --- Table dishes
 CREATE TABLE dishes(
-	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
-    price REAL NOT NULL
+    price NUMERIC (5,2) NOT NULL
 );
+
 
 --- Table clients
 CREATE TABLE clients (
