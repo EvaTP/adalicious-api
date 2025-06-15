@@ -14,6 +14,10 @@ const helloFirstNameDiv = document.querySelector('#hello-firstname');
 const thanksFirstNameDiv = document.querySelector('#thanks-firstname');
 const fondecran = document.querySelector('body');
 
+// commandes unitaires
+const selectedDishes = [];
+
+
 // ***********************
 //   WELCOME PAGE
 // ***********************
@@ -56,8 +60,8 @@ async function fetchMenus() {
 
         menus.forEach((option) => {
             const optionMenu = document.createElement("div");
-            optionMenu.id = option.name;
-            optionMenu.classList.add("styleOptionMenu");
+            optionMenu.id = option.id;
+            optionMenu.classList.add("styleOptionMenu", "optionMenu");
 
             // Ajout emoji
             const imagePlat = document.createElement("p");
@@ -81,11 +85,58 @@ async function fetchMenus() {
             const orderButton = document.createElement("button");
             orderButton.innerText = "Commander";
             orderButton.classList.add("submit-order");
+            orderButton.addEventListener('click', () => {
+                const dish = {
+                    id: option.id,
+                    name: option.name,
+                    emoji: option.emoji || "🍽️",
+                    price: option.price,
+                    quantity: 1
+                };
+                selectedDishes.push(dish);
+                alert(`${dish.name} ajouté à ta commande 🍽️`);
+            });
             optionMenu.appendChild(orderButton);
 
-            optionMenu.classList.add("optionMenu");
             menuListDiv.appendChild(optionMenu);
         });
+
+        // Bouton global "Valider la commande"
+        const validateButton = document.createElement("button");
+        validateButton.id = "submit-order";
+        validateButton.innerText = "Valider la commande";
+        validateButton.classList.add("submit-order-global");
+        validateButton.addEventListener('click', () => {
+            if (selectedDishes.length === 0) {
+                alert("Merci de sélectionner au moins un plat 😊");
+                return;
+            }
+
+            welcomePage.classList.add('hidden');
+            orderMenuPage.classList.add('hidden');
+            orderTrackingPage.classList.remove('hidden');
+
+            thanksFirstNameDiv.innerHTML = `Merci pour ta commande <span style='color: blue;'>${firstName}</span>`;
+
+            const affichageCommandes = selectedDishes.map(plat =>
+                `<div><span class="imageMenu">${plat.emoji}</span> ${plat.name}</div>`
+            ).join("");
+
+            orderTracking.innerHTML = `
+                Ta commande : <br>${affichageCommandes}
+                <br>est <span class="statut">en préparation</span>
+            `;
+
+            const commande = {
+                client: firstName,
+                plats: selectedDishes,
+                statut: "en préparation"
+            };
+            enregistrerCommande(commande);
+        });
+
+        menuListDiv.appendChild(validateButton);
+
     } catch (error) {
         console.error("Erreur lors de la récupération du menu :", error);
         menuListDiv.innerText = "Menu indisponible pour le moment.";
@@ -93,87 +144,55 @@ async function fetchMenus() {
 }
 
 
-// menus.forEach((option)=>{
-// 	const optionMenu = document.createElement("div");
-//     optionMenu.id = option.plate;
-// 	optionMenu.classList.add("styleOptionMenu");
-
-// 	// Ajout emoji
-// 	const imagePlat = document.createElement("p");
-// 	imagePlat.classList.add("imageMenu");
-// 	imagePlat.innerText = option.image;
-// 	optionMenu.appendChild(imagePlat);
-
-// 	// Ajout nom du plat
-// 	const nomPlat = document.createElement("h3");
-// 	nomPlat.innerText = option.plate;
-// 	nomPlat.classList.add("nomPlat");
-// 	optionMenu.appendChild(nomPlat);
-
-// 	// Ajout description
-// 	const descriptionPlat = document.createElement("p");
-// 	descriptionPlat.classList.add("descriptionPlat");
-// 	descriptionPlat.innerText = option.description;
-// 	optionMenu.appendChild(descriptionPlat);
-
-// 	// Ajout bouton "Commander"
-//     const orderButton = document.createElement("button");
-//     orderButton.innerText = "Commander";
-//     orderButton.classList.add("submit-order");
-// 	optionMenu.appendChild(orderButton);
-
-//     optionMenu.classList.add("optionMenu");
-//     menuListDiv.appendChild(optionMenu);
-// });
-
-
 // ************************
 //   ORDER TRACKING PAGE
 // ************************
 
-
 // Eléments HTML
 const orderTracking = document.querySelector('#order-tracking');
+const validerCommandeButton = document.querySelector('#valider-commande');
 
-// ENREGISTRER LA COMMANDE
-function enregistrerCommande(commande) {
-    const commandes = JSON.parse(localStorage.getItem("commandes")) || [];
-    commandes.push(commande);
-    localStorage.setItem("commandes", JSON.stringify(commandes));
-}
+// ENREGISTRER LA COMMANDE dans localStorage
+// function enregistrerCommande(commande) {
+//     const commandes = JSON.parse(localStorage.getItem("commandes")) || [];
+//     commandes.push(commande);
+//     localStorage.setItem("commandes", JSON.stringify(commandes));
+// }
 
-menuListDiv.addEventListener('click', (event) => {
-    if (event.target.tagName === 'BUTTON' && event.target.classList.contains('submit-order')) {
-        // Navigation vers la page de suivi
-        welcomePage.classList.add('hidden');
-        orderMenuPage.classList.add('hidden');
-        orderTrackingPage.classList.remove('hidden');
+validerCommandeButton.addEventListener('click', async () => {
+    if (selectedDishes.length === 0) {
+        alert("Tu n'as sélectionné aucun plat !");
+        return;
+    }
 
-        // Récupération des infos du plat
-        const bouton = event.target;
-        const divPlat = bouton.closest('.optionMenu');
-        const nomPlat = divPlat.id;
-        const emojiPlat = divPlat.querySelector('.imageMenu').innerText;
-		console.log("Plat commandé :", emojiPlat, nomPlat);
+    try {
+        const response = await fetch('http://localhost:3000/api/orders', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                customerName: firstName,
+                dishes: selectedDishes
+            })
+        });
 
-        // Affichage de la confirmation
-        thanksFirstNameDiv.innerHTML = `Merci pour ta commande <span style='color: blue;'>${firstName}</span>`;
-        
-        // Création de l'objet "commande" et enregistrement de la commande dans le localStorage
-        const commande = {
-            client: firstName,
-            plat: nomPlat,
-            emoji: emojiPlat,
-            statut: "en préparation"
-        };
-		// afficher la commande au client
-		orderTracking.innerHTML = `Ta commande <br><span class="imageMenu">${emojiPlat}</span><br>${nomPlat} <br>est <span class="statut">${commande.statut}</span>`;
+        const result = await response.json();
 
-		
-		// orderTracking.innerText = `Ta commande \n${emojiPlat}\n${nomPlat} \nest <span class="statut">${commande.statut}</span>`;
-        // NOTE : \n ne fonctionne que avec innerText; innerHTML n'interprète pas les retours à la ligne car il s'attend à du HTML, pas du texte brut.
-		// pour forcer un retour à la ligne avec innerHTML il faut utiliser la balise <br>
-		enregistrerCommande(commande); // Appel à ta fonction
+        if (response.ok) {
+            alert("Commande envoyée avec succès !");
+            console.log("Commande enregistrée :", result);
+            // Rediriger vers la page de suivi
+            orderMenuPage.classList.add('hidden');
+            orderTrackingPage.classList.remove('hidden');
+            thanksFirstNameDiv.innerHTML = `Merci pour ta commande <span style='color: blue;'>${firstName}</span>`;
+            orderTracking.innerHTML = "Ta commande est en préparation 🍽️";
+        } else {
+            alert("Erreur lors de la commande : " + result.message);
+        }
+    } catch (error) {
+        console.error("Erreur réseau :", error);
+        alert("Impossible d’envoyer la commande.");
     }
 });
 

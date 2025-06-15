@@ -11,7 +11,7 @@ CREATE TABLE dishes(
 --- Table clients
 CREATE TABLE customers (
     id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL
+    firstname TEXT NOT NULL
 );
 
 --- Table global_orders (plusieurs plats commandés)

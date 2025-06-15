@@ -147,8 +147,19 @@ h2#adalicious{
 	color: #fff;
 	padding: 1em;
 	font-size: 1em;
-	font-weight: bold;
 	box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+}
+.submit-order-global {
+    margin-top: 1.5em;
+	margin-bottom: 1.5em;
+    padding: 12px 24px;
+    font-size: 1.2em;
+	font-weight: bold;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
 }
 #submit-name{
 	width: 20%;
