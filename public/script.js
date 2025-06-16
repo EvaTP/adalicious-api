@@ -54,7 +54,7 @@ async function fetchMenus() {
     try {
         const response = await fetch('http://localhost:3000/api/dishes');
         const menus = await response.json();
-
+// enlever localhost et faire une variable d'environnement
         // Vide l'ancien menu s'il existe
         menuListDiv.innerHTML = "";
 
