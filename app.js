@@ -20,7 +20,7 @@ app.use('/api/orders', ordersRoute);
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Exemple de route API simple
-app.get('/api/hello', (req, res) => {
+app.get('/hello', (req, res) => {
   res.json({ message: 'Bienvenue sur Adalicious API 🎉' });
 });
 
