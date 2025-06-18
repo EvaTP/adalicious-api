@@ -57,7 +57,7 @@ async function fetchMenus() {
         const menus = await response.json();
         console.log("le menu est", menus.dishes)
 // enlever localhost et faire une variable d'environnement
-        // Vide l'ancien menu s'il existe
+    // Vide l'ancien menu s'il existe
        menuListDiv.innerHTML = "";
 
         menus.dishes.forEach((option) => {
@@ -122,7 +122,7 @@ async function fetchMenus() {
             thanksFirstNameDiv.innerHTML = `Merci pour ta commande <span style='color: blue;'>${firstName}</span>`;
 
             const affichageCommandes = selectedDishes.map(plat =>
-                `<div><span class="imageMenu">${plat.emoji}</span> ${plat.name}</div>`
+                `<div class="commande-confirmation">${plat.emoji} ${plat.name}</div>`
             ).join("");
 
             orderTracking.innerHTML = `
