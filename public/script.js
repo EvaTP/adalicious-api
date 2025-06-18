@@ -58,20 +58,19 @@ async function fetchMenus() {
         console.log("le menu est", menus.dishes)
 // enlever localhost et faire une variable d'environnement
         // Vide l'ancien menu s'il existe
-       //menuListDiv.innerHTML = menus.dishes;
+       menuListDiv.innerHTML = "";
 
         menus.dishes.forEach((option) => {
             console.log("option", option)
             const optionMenu = document.createElement("div");
-           menuListDiv.innerText = option.name
             //optionMenu.id = option.id;
             optionMenu.classList.add("styleOptionMenu", "optionMenu");
 
             // // Ajout emoji
-        //    const imagePlat = document.createElement("p");
-        // imagePlat.classList.add("imageMenu");
-        //    imagePlat.innerText = option.emoji || "🍽️";
-        //  optionMenu.appendChild(imagePlat);
+           const imagePlat = document.createElement("p");
+            imagePlat.classList.add("imageMenu");
+           imagePlat.innerText = option.emoji || "🍽️";
+            optionMenu.appendChild(imagePlat);
 
             // // Nom du plat
             const nomPlat = document.createElement("h3");
@@ -79,30 +78,30 @@ async function fetchMenus() {
             nomPlat.classList.add("nomPlat");
             optionMenu.appendChild(nomPlat);
 
-            // // Description
+            // Description
             // const descriptionPlat = document.createElement("p");
             // descriptionPlat.classList.add("descriptionPlat");
             // descriptionPlat.innerText = option.description || "";
             // optionMenu.appendChild(descriptionPlat);
 
-            // // Bouton commander
-            // const orderButton = document.createElement("button");
-            // orderButton.innerText = "Commander";
-            // orderButton.classList.add("submit-order");
-            // orderButton.addEventListener('click', () => {
-            //     const dish = {
-            //         id: option.id,
-            //         name: option.name,
-            //         emoji: option.emoji || "🍽️",
-            //         price: option.price,
-            //         quantity: 1
-            //     };
-            //     selectedDishes.push(dish);
-            //     alert(`${dish.name} ajouté à ta commande 🍽️`);
-            // });
-            // optionMenu.appendChild(orderButton);
+            // Bouton commander
+            const orderButton = document.createElement("button");
+            orderButton.innerText = "Commander";
+            orderButton.classList.add("submit-order");
+            orderButton.addEventListener('click', () => {
+                const dish = {
+                    id: option.id,
+                    name: option.name,
+                    emoji: option.emoji || "🍽️",
+                    price: option.price,
+                    quantity: 1
+                };
+                selectedDishes.push(dish);
+                alert(`${dish.name} ajouté à ta commande 🍽️`);
+            });
+            optionMenu.appendChild(orderButton);
 
-            // menuListDiv.appendChild(optionMenu);
+            menuListDiv.appendChild(optionMenu);
         });
 
         //Bouton global "Valider la commande"
