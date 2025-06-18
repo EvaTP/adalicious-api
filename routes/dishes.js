@@ -48,20 +48,7 @@ router.get("/name/:name", async (req, res) => {
   }
 });
 
-//exemple recherche par name :
-// GET http://localhost:3000/api/dishes/name/Prisma donut
-// http://localhost:3000/api/dishes/name/React Pizza
-
-// GET By unique identifier by ID
-// router.get("/:id", async (req, res) => {
-//   const dishId = await prisma.dishes.findUnique({
-//     where: {
-//       id: 2,
-//     },
-//   });
-//   res.json(dish);
-// });
-
+// GET : by ID
 router.get("/id/:id", async (req, res) => {
   const dbid = Number(req.params.id);
   console.log("ID reçu :", dbid);
@@ -85,9 +72,8 @@ router.get("/id/:id", async (req, res) => {
       .json({ "paramètres reçus :": params,  error: "Erreur serveur" });
   }
 });
-// exemple recherche par id :
-// http://localhost:3000/api/dishes/id/3
 
+// GET : by price
 router.get("/price/:price", async (req, res) => {
   const dishprice = parseFloat(req.params.price);
   console.log("price reçu :", dishprice);
@@ -164,10 +150,11 @@ router.patch("/:id", async (req, res) => {
 
 // DELETE
 router.delete("/:id", async (req, res) => {
-  const id = parseInt(req.params.id);
+  const deleteDish = parseInt(req.params.id);
+  console.log("delete :", deleteDish);
   try {
     const deleted = await prisma.dishes.delete({
-      where: { id },
+      where: { id: deleteDish },
     });
     res.json(deleted);
   } catch (error) {
