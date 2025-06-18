@@ -78,6 +78,7 @@ router.get("/id/:id", async (req, res) => {
     }
     res.json(dish);
   } catch (error) {
+    
     console.error("Erreur de recherche :", error);
     res
       .status(500)
@@ -88,26 +89,27 @@ router.get("/id/:id", async (req, res) => {
 // http://localhost:3000/api/dishes/id/3
 
 router.get("/price/:price", async (req, res) => {
-  const dishprice = Decimal(req.params.price);
+  const dishprice = parseFloat(req.params.price);
   console.log("price reçu :", dishprice);
 
   try {
-    const dish = await prisma.dishes.findFirst({
+    const dishesArray = await prisma.dishes.findMany({
       where: {
         price: dishprice,
       },
     });
 
-    if (!dish) {
-      return res.status(404).json({ error: "Plat non trouvé" });
+    if (dishesArray.length === 0) {
+      return res.status(404).json({ error: "Aucun plat trouvé à ce prix" });
     }
 
-    res.json(dish);
+    res.json(dishesArray);
   } catch (error) {
     console.error("Erreur de recherche :", error);
     res.status(500).json({ error: "Erreur serveur" });
   }
 });
+// parseFloat : dishprice est un string et c'est un INT dans le tableau il faut donc faire parseFloat/ exemple catch
 
 // CREATE
 router.post("/", async (req, res) => {
@@ -128,67 +130,60 @@ router.post("/", async (req, res) => {
   }
 });
 
-// exemple :
-// {
-//   "name": "Svelte Vegan Pita",
-//   "price": 6,
-//    "emoji": "🥙"
-// }
-
 // UPDATE
 // PATCH /dishes/:id
 router.patch("/:id", async (req, res) => {
   const patchdish = parseInt(req.params.id);
+  console.log(patchdish);
   const { name, price, emoji } = req.body;
+  console.log("patch reçu :", patchdish, name, price, emoji)
 
   try {
     const updatedDish = await prisma.dishes.update({
       where: { id: patchdish },
-      data: {
-        ...(name && { name }),
-        ...(price && { price }),
-        ...(emoji && { emoji }),
-      },
+        data: {
+          name: name ?? undefined,
+          price: price !== undefined ? parseFloat(price) : undefined,
+          emoji: emoji ?? undefined,
+        }
+      // data: {
+      //   ...(name && { name }),
+      //   ...(price && { price }),
+      //   ...(emoji && { emoji }),
+      // },
     });
     res.json(updatedDish);
   } catch (error) {
+    console.log(error);
+
     console.error("Erreur lors de la mise à jour :", error);
     res.status(500).json({ error: "Impossible de mettre à jour ce plat." });
   }
 });
 
-// exemple: PATCH /dishes/4.  (tacos)
-// Content-Type: application/json
-
-// {
-//   "name": "Git Pull Tacos",
-//   "price: 5"
-//   "emoji": "🌮"
-// }
-// je mets seulement le paramètre que je veux changer: price: 5
-
-//UPDATE
-// router.patch("/", async (req, res) => {
-//   const updateDish = await prisma.dishes.update({
-//     where: {
-//       price: "viola@prisma.io",
-//     },
-//     data: {
-//       name: "Viola the Magnificent",
-//     },
-//   });
-//   res.json(dish);
-// });
 
 // DELETE
 router.delete("/:id", async (req, res) => {
-  const dishDel = await prisma.dishes.delete({
-    where: {
-      id: 2,
-    },
-  });
-  res.json(dishDel);
+  const id = parseInt(req.params.id);
+  try {
+    const deleted = await prisma.dishes.delete({
+      where: { id },
+    });
+    res.json(deleted);
+  } catch (error) {
+    console.error("Erreur suppression :", error);
+    res.status(500).json({ error: "Suppression impossible" });
+  }
 });
+
+// router.delete("/:id", async (req, res) => {
+//   const dishDel = await prisma.dishes.delete({
+//     where: {
+//       id: dishDel,
+//     },
+//   });
+//   res.json(dishDel);
+// });
 
 // app.delete("/post/:id", async (req, res) => {
 //   const { id } = req.params

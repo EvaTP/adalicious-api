@@ -22,6 +22,7 @@ const selectedDishes = [];
 //   WELCOME PAGE
 // ***********************
 
+     
 // récupérer le prénom du client et passer à la page menu
 submitNameButton.addEventListener('click', () => {
     firstName = firstNameInput.value.trim();
@@ -54,54 +55,57 @@ async function fetchMenus() {
     try {
         const response = await fetch('http://localhost:3000/api/dishes');
         const menus = await response.json();
+        console.log("le menu est", menus.dishes)
 // enlever localhost et faire une variable d'environnement
         // Vide l'ancien menu s'il existe
-        menuListDiv.innerHTML = "";
+       //menuListDiv.innerHTML = menus.dishes;
 
-        menus.forEach((option) => {
+        menus.dishes.forEach((option) => {
+            console.log("option", option)
             const optionMenu = document.createElement("div");
-            optionMenu.id = option.id;
+           menuListDiv.innerText = option.name
+            //optionMenu.id = option.id;
             optionMenu.classList.add("styleOptionMenu", "optionMenu");
 
-            // Ajout emoji
-            const imagePlat = document.createElement("p");
-            imagePlat.classList.add("imageMenu");
-            imagePlat.innerText = option.emoji || "🍽️";
-            optionMenu.appendChild(imagePlat);
+            // // Ajout emoji
+        //    const imagePlat = document.createElement("p");
+        // imagePlat.classList.add("imageMenu");
+        //    imagePlat.innerText = option.emoji || "🍽️";
+        //  optionMenu.appendChild(imagePlat);
 
-            // Nom du plat
+            // // Nom du plat
             const nomPlat = document.createElement("h3");
             nomPlat.innerText = option.name;
             nomPlat.classList.add("nomPlat");
             optionMenu.appendChild(nomPlat);
 
-            // Description
-            const descriptionPlat = document.createElement("p");
-            descriptionPlat.classList.add("descriptionPlat");
-            descriptionPlat.innerText = option.description || "";
-            optionMenu.appendChild(descriptionPlat);
+            // // Description
+            // const descriptionPlat = document.createElement("p");
+            // descriptionPlat.classList.add("descriptionPlat");
+            // descriptionPlat.innerText = option.description || "";
+            // optionMenu.appendChild(descriptionPlat);
 
-            // Bouton commander
-            const orderButton = document.createElement("button");
-            orderButton.innerText = "Commander";
-            orderButton.classList.add("submit-order");
-            orderButton.addEventListener('click', () => {
-                const dish = {
-                    id: option.id,
-                    name: option.name,
-                    emoji: option.emoji || "🍽️",
-                    price: option.price,
-                    quantity: 1
-                };
-                selectedDishes.push(dish);
-                alert(`${dish.name} ajouté à ta commande 🍽️`);
-            });
-            optionMenu.appendChild(orderButton);
+            // // Bouton commander
+            // const orderButton = document.createElement("button");
+            // orderButton.innerText = "Commander";
+            // orderButton.classList.add("submit-order");
+            // orderButton.addEventListener('click', () => {
+            //     const dish = {
+            //         id: option.id,
+            //         name: option.name,
+            //         emoji: option.emoji || "🍽️",
+            //         price: option.price,
+            //         quantity: 1
+            //     };
+            //     selectedDishes.push(dish);
+            //     alert(`${dish.name} ajouté à ta commande 🍽️`);
+            // });
+            // optionMenu.appendChild(orderButton);
 
-            menuListDiv.appendChild(optionMenu);
+            // menuListDiv.appendChild(optionMenu);
         });
 
-        // Bouton global "Valider la commande"
+        //Bouton global "Valider la commande"
         const validateButton = document.createElement("button");
         validateButton.id = "submit-order";
         validateButton.innerText = "Valider la commande";
