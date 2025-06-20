@@ -13,6 +13,13 @@ CREATE TABLE customers (
     id SERIAL PRIMARY KEY,
     firstname TEXT NOT NULL
 );
+-- ajout colonne password
+ALTER TABLE customers ADD COLUMN password TEXT;
+-- une fois les passwords ajoutés modifier la colonne en NOT NULL
+ALTER TABLE "public"."customers"
+ALTER COLUMN "password"
+SET NOT NULL
+
 
 --- Table global_orders (plusieurs plats commandés)
 CREATE TABLE global_orders (
@@ -86,6 +93,21 @@ VALUES
     ('Frances'),
     ('Pepe'),
 	('Pierre');
+
+UPDATE customers
+SET password = CASE id
+  WHEN 1 THEN 'azerty123'
+  WHEN 2 THEN 'motdepasse456'
+  WHEN 3 THEN 'secure789'
+  WHEN 4 THEN 'bonjour2024'
+  WHEN 5 THEN 'secretabc'
+  WHEN 6 THEN 'codeXYZ'
+  WHEN 7 THEN 'admin321'
+  WHEN 8 THEN 'pass0008'
+  ELSE password
+END
+WHERE id IN (1,2,3,4,5,6,7,8);
+
 
 
 INSERT INTO global_orders (client_id, total_price, created_at, status)
