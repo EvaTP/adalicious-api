@@ -15,7 +15,7 @@ const { Decimal } = Prisma;
 // route TEST
 router.get("/test", (req, res) => {
   console.log("✅ Route /api/dishes/test atteinte");
-  res.send("Test OK");
+  res.send("Test route dishes OK");
 });
 
 // GET : afficher tous les plats
