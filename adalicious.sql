@@ -168,7 +168,6 @@ DROP COLUMN status;
 
 
 
-
 INSERT INTO order_dishes (order_id, dish_id, quantity, unit_price)
 VALUES
 (1, 2, 1, 3.5),  -- (Mary, 404 Not Found Fries, quantité : 1)
@@ -215,3 +214,63 @@ EXPLAIN (FORMAT JSON, COSTS, BUFFERS, VERBOSE) SELECT
           JOIN customers ON global_orders.client_id = customers.id
           JOIN dishes ON order_dishes.dish_id = dishes.id
           ORDER BY global_orders.id
+
+
+
+-- REFACTO TABLES
+-- **************
+
+INSERT INTO dishes (name, price, emoji)
+VALUES
+    ('Hello World Burger', 8, '🍔'),
+    ('404 Not Found Fries', 3.5, '🍟'),
+    ('JSON Nuggets', 7, '🍗'),
+	('Git Pull Tacos', 4.5, '🌮'),
+    ('Front-end Salad', 5, '🥗'),
+    ('Back-end Brownie', 3, '🍪'),
+	('Full Stack Menu', 10, '🍔🥤'),
+    ('React Pizza', 4, '🍕'),
+    ('Python Milk-shake', 2, '🥤'),
+    ('Express cola', 2, '🧋'),
+    ('Java Hot dog', 5, '🌭');
+
+
+INSERT INTO customers (firstname, password)
+VALUES
+	('Mary','azerty123'),
+	('Johnny', 'motdepasse456'),
+	('Lucie','secure789'),
+    ('Frances','bonjour2024'),
+    ('Pepe','secretabc'),
+	('Pierre','codeXYZ');
+
+
+
+
+
+INSERT INTO orders (client_id, dish_id, quantity, unit_price, created_at)
+SELECT 
+  v.client_id, 
+  v.dish_id, 
+  v.quantity, 
+  d.price,              -- ← ICI on récupère le prix !
+  CURRENT_TIMESTAMP
+FROM (VALUES 
+  (1, 2, 1),
+  (2, 4, 2),
+  (3, 7, 1),
+  (4, 1, 2),
+  (5, 5, 1)
+) AS v(client_id, dish_id, quantity)
+JOIN dishes d ON d.id = v.dish_id;  -- ← ET ICI on fait la liaison !
+
+
+-- (1, 2, 1) = (Mary, 404 Not Found Fries, quantité : 1)
+-- (2, 4, 2) =(Johnny, Git Pull Tacos, quantité : 2)
+-- (3, 7, 1) = (Lucie, Full Stack Menu, quantité : 1)
+-- (4, 1, 2) = (Frances, Hello World Burger, quantité : 2)
+-- (5, 5, 1) = (Pepe, Front-end salad, quantité : 1)
+
+
+ALTER TABLE orders
+ADD COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;

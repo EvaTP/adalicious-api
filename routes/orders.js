@@ -13,7 +13,7 @@ router.get("/test", (req, res) => {
 
 // GET : afficher toutes les commandes
 router.get("/", async (req, res) => {
-  const allorders = await prisma.order_dishes.findMany();
+  const allorders = await prisma.orders.findMany();
   // console.log("all orders reçu :", allorders);
 
   res.json({ allorders });
@@ -24,9 +24,8 @@ router.get("/", async (req, res) => {
 router.get("/id/:id", async (req, res) => {
   const dbid = Number(req.params.id);
   console.log("ID reçu :", dbid);
-
   try {
-    const order = await prisma.order_dishes.findUnique({
+    const order = await prisma.orders.findUnique({
       where: {
         id: dbid,
       },
@@ -46,28 +45,28 @@ router.get("/id/:id", async (req, res) => {
 });
 
 
-// POST /api/orders
+// POST /orders
 // Créer une commande
 router.post("/", async (req, res) => {
-  const { order_id, dish_id, quantity } = req.body;
-
+  const { client_id, dish_id, quantity } = req.body;
   try {
-    // récupération du prix du plat dans dishes
+    // Récupérer le prix du plat dans la table dishes
     const dish = await prisma.dishes.findUnique({
-      where : {id: dish_id},
+      where: { id: dish_id }
     });
     if (!dish) {
-      return res.status(404).json({ error: "Plat introuvable." });
+      return res.status(404).json({ error: "Plat non trouvé" });
     }
-    // création de la commande avec le prix du plat
-    const result = await prisma.order_dishes.create({
+    // Créer la commande
+    const result = await prisma.orders.create({
       data: {
-        order_id,
+        client_id,
         dish_id,
         quantity,
         unit_price: dish.price,
       },
     });
+    
     res.json(result);
   } catch (error) {
     console.error("Erreur lors de la création de la commande :", error);
@@ -75,19 +74,19 @@ router.post("/", async (req, res) => {
   }
 });
 
+
 // UPDATE
-// PATCH /dishes/:id
+// PATCH /orders/:id
 router.patch("/:id", async (req, res) => {
   const patchOrder = parseInt(req.params.id);
   console.log(patchOrder);
-  const { order_id, dish_id, quantity, unit_price } = req.body;
+  const { client_id, dish_id, quantity, unit_price } = req.body;
   console.log("patch reçu :", patchOrder)
-
   try {
-    const updatedOrder = await prisma.order_dishes.update({
+    const updatedOrder = await prisma.orders.update({
       where: { id: patchOrder },
         data: {
-        order_id,
+        client_id,
         dish_id,
         quantity,
         unit_price
@@ -96,7 +95,6 @@ router.patch("/:id", async (req, res) => {
     res.json(updatedOrder);
   } catch (error) {
     console.log(error);
-
     console.error("Erreur lors de la mise à jour :", error);
     res.status(500).json({ error: "Impossible de mettre à jour cette commande." });
   }
@@ -108,7 +106,7 @@ router.delete("/:id", async (req, res) => {
   const deleteOrder = parseInt(req.params.id);
   console.log("delete :", deleteOrder);
   try {
-    const deleted = await prisma.order_dishes.delete({
+    const deleted = await prisma.orders.delete({
       where: { id: deleteOrder },
     });
     res.json(deleted);
@@ -165,10 +163,10 @@ router.delete("/:id", async (req, res) => {
 
 //     const orderId = orderResult.rows[0].id;
 
-//     // 4. Insérer chaque plat dans order_dishes
+//     // 4. Insérer chaque plat dans orders
 //     for (const dish of dishes) {
 //       await pool.query(
-//         `INSERT INTO order_dishes (order_id, dish_id, quantity, unit_price)
+//         `INSERT INTO orders (order_id, dish_id, quantity, unit_price)
 //          VALUES ($1, $2, $3, $4)`,
 //         [orderId, dish.id, dish.quantity, dish.unit_price]
 //       );

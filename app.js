@@ -11,14 +11,12 @@ app.use(cors());
 
 const dishesRoute = require('./routes/dishes');
 const ordersRoute = require('./routes/orders');
-const globalOrdersRoute = require('./routes/globalorders');
 const usersRoute = require('./routes/users');
 const loginRoute = require('./routes/login');
 
-app.use('/api/dishes', dishesRoute);
+app.use('/dishes', dishesRoute);
 // ( = dans toutes mes routes dishes je veux que ça commence par api/dishes)
-app.use('/api/orders', ordersRoute);
-app.use('/globalorders', globalOrdersRoute);
+app.use('/orders', ordersRoute);
 app.use('/users', usersRoute);
 app.use('/login', loginRoute);
 

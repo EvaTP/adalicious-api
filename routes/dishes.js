@@ -52,7 +52,6 @@ router.get("/name/:name", async (req, res) => {
 router.get("/id/:id", async (req, res) => {
   const dbid = Number(req.params.id);
   console.log("ID reçu :", dbid);
-
   try {
     const dish = await prisma.dishes.findUnique({
       where: {
