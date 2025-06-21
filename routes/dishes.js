@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const pool = require("../db");
+// const pool = require("../db"); n'est plus nécessaire avec prisma
 
 const { PrismaClient, Prisma } = require("@prisma/client");
 const prisma = new PrismaClient();

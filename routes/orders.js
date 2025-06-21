@@ -11,6 +11,15 @@ router.get("/test", (req, res) => {
   res.send("Test route orders OK");
 });
 
+// GET : afficher toutes les commandes
+router.get("/", async (req, res) => {
+  const allorders = await prisma.order_dishes.findMany();
+  // console.log("all orders reçu :", allorders);
+
+  res.json({ allorders });
+});
+
+
 // GET : by ID
 router.get("/id/:id", async (req, res) => {
   const dbid = Number(req.params.id);
