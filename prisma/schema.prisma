@@ -8,43 +8,36 @@ datasource db {
 }
 
 model customers {
-  id            Int             @id @default(autoincrement())
-  firstname     String
-  password      String
-  global_orders global_orders[]
+  id        Int      @id @default(autoincrement())
+  firstname String
+  password  String
+  orders    orders[]
 }
 
 model dishes {
-  id           Int            @id @default(autoincrement())
-  name         String
-  price        Decimal        @db.Decimal(5, 2)
-  emoji        String?
-  order_dishes order_dishes[]
+  id     Int      @id @default(autoincrement())
+  name   String
+  price  Decimal  @db.Decimal(5, 2)
+  emoji  String?
+  orders orders[]
 }
 
-model global_orders {
-  id           Int            @id @default(autoincrement())
-  client_id    Int?
-  total_price  Float?         @db.Real
-  created_at   DateTime?      @default(now()) @db.Timestamp(6)
-  status_id    Int?
-  order_status order_status?  @relation(fields: [status_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_global_orders_status")
-  customers    customers?     @relation(fields: [client_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  order_dishes order_dishes[]
-}
-
-model order_dishes {
-  id            Int           @id @default(autoincrement())
-  order_id      Int
-  dish_id       Int
-  quantity      Int
-  unit_price    Float         @db.Real
-  dishes        dishes        @relation(fields: [dish_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  global_orders global_orders @relation(fields: [order_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+model orders {
+  id           Int          @id @default(autoincrement())
+  client_id    Int
+  dish_id      Int
+  quantity     Int
+  unit_price   Float        @db.Real
+  created_at   DateTime     @default(now()) @db.Timestamp(6)
+  status_id    Int          @default(1)
+  updated_at   DateTime?    @default(now()) @db.Timestamp(6)
+  customer     customers    @relation(fields: [client_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  dish         dishes       @relation(fields: [dish_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  order_status order_status @relation(fields: [status_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model order_status {
-  id            Int             @id @default(autoincrement())
-  status        String
-  global_orders global_orders[]
+  id     Int      @id @default(autoincrement())
+  status String
+  orders orders[]
 }
