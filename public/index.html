@@ -20,11 +20,21 @@
 		<p>🥦</p>
 		<h1>Bienvenue sur Adalicious!</h1>
 		<h2>Le célèbre <em>diner</em> des développeurs web 3.0 😋</h2>
-		<p>Pour commencer, peux-tu me donner ton prénom :</p>
 		
-
-		<input type="text" id="first-name">
-		<button id="submit-name" type="submit">Valider</button>
+		<form action="" id="login-form" method="post">
+			<p>Se connecter</p>
+			<div class="divlogin">
+				<label for="first-name">Identifiant :</label>
+				<input type="text" id="first-name" name="firstname" required>
+			</div>
+			
+			<div class="divlogin">
+				<label for="password">Mot de passe :</label>
+				<input type="password" id="password" name="password" required>
+			</div>
+			<button id="submit-login" type="submit">Valider</button>
+		</form>
+	
 		<p id="message-erreur"></p>
 	</div>
 
