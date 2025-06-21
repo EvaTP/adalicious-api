@@ -18,7 +18,7 @@ const loginRoute = require('./routes/login');
 app.use('/api/dishes', dishesRoute);
 // ( = dans toutes mes routes dishes je veux que ça commence par api/dishes)
 app.use('/api/orders', ordersRoute);
-app.use('/api/globalorders', globalOrdersRoute);
+app.use('/globalorders', globalOrdersRoute);
 app.use('/users', usersRoute);
 app.use('/login', loginRoute);
 

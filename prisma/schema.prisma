@@ -10,6 +10,7 @@ datasource db {
 model customers {
   id            Int             @id @default(autoincrement())
   firstname     String
+  password      String
   global_orders global_orders[]
 }
 
@@ -26,7 +27,8 @@ model global_orders {
   client_id    Int?
   total_price  Float?         @db.Real
   created_at   DateTime?      @default(now()) @db.Timestamp(6)
-  status       String?
+  status_id    Int?
+  order_status order_status?  @relation(fields: [status_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_global_orders_status")
   customers    customers?     @relation(fields: [client_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   order_dishes order_dishes[]
 }
@@ -39,4 +41,10 @@ model order_dishes {
   unit_price    Float         @db.Real
   dishes        dishes        @relation(fields: [dish_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   global_orders global_orders @relation(fields: [order_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model order_status {
+  id            Int             @id @default(autoincrement())
+  status        String
+  global_orders global_orders[]
 }

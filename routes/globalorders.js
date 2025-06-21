@@ -7,8 +7,16 @@ const prisma = new PrismaClient();
 const { Decimal } = Prisma;
 
 router.get("/test", (req, res) => {
-  console.log("✅ Route /api/globalorders/test atteinte");
+  console.log("✅ Route globalorders/test atteinte");
   res.send("Test route globalorders OK");
+});
+
+// GET : afficher toutes les commandes (orders)
+router.get("/", async (req, res) => {
+  const allGlobalOrders = await prisma.global_orders.findMany();
+  console.log("toutes les commandes :", allGlobalOrders);
+
+  res.json({ allGlobalOrders });
 });
 
 

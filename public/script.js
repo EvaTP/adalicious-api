@@ -1,9 +1,9 @@
 
-
 // Eléments HTML
 let firstName = "";
-const submitNameButton = document.querySelector('#submit-name');
+const loginForm = document.querySelector('#login-form');
 const firstNameInput = document.querySelector('#first-name');
+const passwordInput = document.querySelector('#password');
 const messageErreur = document.querySelector('#message-erreur');
 // Pages
 const welcomePage = document.querySelector('#welcome-page');
@@ -24,9 +24,12 @@ const selectedDishes = [];
 
      
 // récupérer le prénom du client et passer à la page menu
-submitNameButton.addEventListener('click', () => {
+loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
     firstName = firstNameInput.value.trim();
-    if (firstName) {
+    password = passwordInput.value;
+    if (firstName && password) {
+        console.log("Tentative de connexion avec :", firstName, password);
 		helloFirstNameDiv.innerHTML = `Bonjour <span style='color: blue;'>${firstName}</span>`;
         welcomePage.classList.add('hidden');
         orderMenuPage.classList.remove('hidden');
@@ -34,7 +37,7 @@ submitNameButton.addEventListener('click', () => {
 
         fetchMenus();
     } else {
-		messageErreur.innerText = "merci de saisir ton prénom 😉";
+		messageErreur.innerText = "merci de renseigner tous les champs 😉";
 		messageErreur.style.color =('red');
 		messageErreur.style.fontSize = ('1.5em');
     }fondecran.style.backgroundColor = ('white');

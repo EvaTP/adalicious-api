@@ -27,7 +27,7 @@ CREATE TABLE global_orders (
     client_id INT REFERENCES customers(id),
 	total_price REAL, -- Optionnel : pour stocker le montant total de la commande
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    status TEXT -- status : "en cours", "prêt", "annulé"
+    status TEXT -- status : "en attente", "en préparation", "prêt", "annulé"
 );
 
 
@@ -43,6 +43,19 @@ CREATE TABLE order_dishes (
 );
 -- Deux FOREIGN KEY bien placées pour relier les commandes globales et les plats.
 -- unit_price permet de conserver l’historique du prix au moment de l’achat, ce qui est très pertinent.
+
+-- Table status
+CREATE TABLE order_status (
+    id SERIAL PRIMARY KEY,
+    status TEXT NOT NULL
+);
+
+INSERT INTO order_status (status)
+VALUES
+    ('en attente'),
+    ('en préparation'),
+    ('prêt'),
+    ('annulé');
 
 
 -- Insertion données
@@ -117,6 +130,43 @@ VALUES
 (3, 10, '2025-04-06 12:00:00', 'annulé'),
 (4, 8, '2025-04-06 13:30:00', 'prêt'),
 (5, 4, '2025-06-13 13:30:00', 'en attente');
+
+
+-- Ajouter la colonne status_id
+ALTER TABLE global_orders 
+ADD COLUMN status_id INTEGER;
+
+-- Ajouter la contrainte de foreign key
+ALTER TABLE global_orders 
+ADD CONSTRAINT fk_global_orders_status 
+FOREIGN KEY (status_id) REFERENCES order_status(id);
+
+-- migration des données de statut de la commande
+
+UPDATE global_orders 
+SET status_id = (SELECT id FROM order_status WHERE status = 'en attente')
+WHERE status = 'en attente';
+
+UPDATE global_orders 
+SET status_id = (SELECT id FROM order_status WHERE status = 'en préparation')
+WHERE status = 'en préparation';
+
+UPDATE global_orders 
+SET status_id = (SELECT id FROM order_status WHERE status = 'prêt')
+WHERE status = 'prêt';
+
+UPDATE global_orders 
+SET status_id = (SELECT id FROM order_status WHERE status = 'annulé')
+WHERE status = 'annulé';
+
+-- après la migration on peut supprimer l'ancienne colonne status, remplacée par status_id
+ALTER TABLE global_orders 
+DROP COLUMN status;
+
+-- exemple concret
+
+
+
 
 
 INSERT INTO order_dishes (order_id, dish_id, quantity, unit_price)
