@@ -3,11 +3,11 @@
 [![forthebadge](https://forthebadge.com/images/featured/featured-built-with-love.svg)](https://forthebadge.com)
 
 ## Fonctionnalités
-- 👩🏼‍🦰 vue client :
+- 👩🏼‍🦰 vue CLIENT :
 	- identification et authentification (en cours)
 	- commande de plats
 	- suivi du statut de la commande
-- 🧑‍🍳 vue "cuisine" :
+- 🧑‍🍳 vue CUISINE :
 gestion des commandes : changement de statut de la commande
 
 
