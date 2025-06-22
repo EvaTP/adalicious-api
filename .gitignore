@@ -3,15 +3,20 @@
 
 node_modules
 
-
-help.md
-old-menujson.js
-
-old-menu.html
-script_old.js
-script-encours-comments.js
+help
 Adalicious-Kata5.pdf
 adalicious_mockup.png
+adalicious-SQL-dishes-orders.png
+help.md
+
+old
+old-menu.html
+old-menujson.js
+old-script.js
+script_old.js
+script-encours-comments.js
+
+
 
 .env
 /generated/prisma

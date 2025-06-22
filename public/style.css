@@ -170,6 +170,11 @@ h2#adalicious{
 }
 .descriptionPlat{
 	text-align: left;
+	text-decoration: wavy;
+}
+.prixPlat{
+	text-align: right;
+	font-weight: bold;
 }
 .submit-order{
 	width: 40%;
@@ -185,18 +190,6 @@ h2#adalicious{
 	font-size: 1em;
 	box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
 	cursor: pointer;
-}
-.submit-order-global {
-    margin-top: 1.5em;
-	margin-bottom: 1.5em;
-    padding: 12px 24px;
-    font-size: 1.3em;
-	font-weight: bold;
-    background-color: green;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
 }
 #submit-login{
 	width: 20%;
